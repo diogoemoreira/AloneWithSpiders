@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
 using Confluent.Kafka;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.IO;
 
 public class KafkaManager : MonoBehaviour
 {
@@ -16,11 +18,15 @@ public class KafkaManager : MonoBehaviour
     private IConsumer<Ignore, string> consumer;
     private string topic="purchases";
 
+    //the name of the file should be dynamic
+    private string filePath = "";
+
     // The queue where we'll store the consumed messages
     private ConcurrentQueue<string> messageQueue;
 
     // The thread where the consumer will run
     private Thread consumerThread;
+    private StreamWriter writer;
 
     void Awake()
     {
@@ -29,8 +35,17 @@ public class KafkaManager : MonoBehaviour
             Destroy(this);
             return;
         }
-        instance = this;        
+        instance = this;     
 
+        //As the file name uses UTC time there is no problem with finding dupes
+        filePath = Application.dataPath+"/Logs/LogFile_"+DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")+".txt";
+        // Create the directory if it doesn't exist
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+        // Create the file
+        writer = new StreamWriter(filePath); //if we want to append use new StreamWriter(filePath, true)
+        
+        Debug.Log(Application.dataPath);
 
         //Kafka consumer
         var config = new ConsumerConfig
@@ -77,6 +92,9 @@ public class KafkaManager : MonoBehaviour
                 var consumeResult = this.consumer.Consume();
                 messageQueue.Enqueue(consumeResult.Message.Value);
                 Debug.Log($"Received message: {consumeResult.Message.Value}");
+                
+                // Write to the file
+                writer.WriteLine($"Received message: {consumeResult.Message.Value}");
             }
             catch (ConsumeException e)
             {
@@ -90,6 +108,7 @@ public class KafkaManager : MonoBehaviour
     {
         //game crashes if uncommented
         //this.consumer.Close();
+        writer.Close();
         consumerThread.Abort();
     }
 }
