@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 using System;
@@ -12,11 +13,17 @@ public class KafkaManager : MonoBehaviour
 {
     public static KafkaManager instance;
 
+    public TextMeshProUGUI textComponent;
 
-    private string brokerList = "localhost:9092";
-    private string groupId = "sgarcia";
-    private IConsumer<Ignore, string> consumer;
-    private string topic="purchases";
+
+    private string brokerList = "pkc-l6wr6.europe-west2.gcp.confluent.cloud:9092";
+    private string groupId = "test";
+    //private string protocol = "SASL_SSL";
+    //private Nullable mechanisms = PLAIN;
+    private string user = "GRSJVZGFRQJ3LHRF";
+    private string password = "JWGOXm82DVznmYCOD/nSbV3taZWw2aP5ee/fWxEIaqLIOsnxQgTIb8yVk1o/ugJv";
+    private IConsumer<string, string> consumer;
+    private string topic="signals";
 
     //the name of the file should be dynamic
     private string filePath = "";
@@ -52,10 +59,14 @@ public class KafkaManager : MonoBehaviour
         {
             BootstrapServers = brokerList,
             GroupId = groupId,
-            AutoOffsetReset = AutoOffsetReset.Earliest
+            AutoOffsetReset = AutoOffsetReset.Earliest,
+            SecurityProtocol = SecurityProtocol.SaslSsl,
+            SaslMechanism = SaslMechanism.Plain,
+            SaslUsername = user,
+            SaslPassword = password
         };
 
-        this.consumer = new ConsumerBuilder<Ignore, string>(config)
+        this.consumer = new ConsumerBuilder<string, string>(config)
                             .SetErrorHandler((_, e) => Debug.LogError($"Error: {e.Reason}"))
                             .Build();
         //
@@ -76,6 +87,10 @@ public class KafkaManager : MonoBehaviour
             {
                 // Do something with the message (e.g. update the UI)
                 Debug.Log("Received message: " + message);
+                textComponent.text = message;
+
+                // Write to the file
+                writer.WriteLine($"Received message: "+message);
             }
         }
     }
@@ -90,11 +105,7 @@ public class KafkaManager : MonoBehaviour
             try
             {
                 var consumeResult = this.consumer.Consume();
-                messageQueue.Enqueue(consumeResult.Message.Value);
-                Debug.Log($"Received message: {consumeResult.Message.Value}");
-                
-                // Write to the file
-                writer.WriteLine($"Received message: {consumeResult.Message.Value}");
+                messageQueue.Enqueue(consumeResult.Message.Key + ";"+ consumeResult.Message.Value);
             }
             catch (ConsumeException e)
             {
