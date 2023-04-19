@@ -33,7 +33,6 @@ public class WebSocketManager : MonoBehaviour
             // getting the message as a string
             var message = System.Text.Encoding.UTF8.GetString(bytes);
             Debug.Log("OnMessage! " + message);
-        
         };
     }
 

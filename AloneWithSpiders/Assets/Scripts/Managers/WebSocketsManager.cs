@@ -30,7 +30,6 @@ public class WebSocketsManager : MonoBehaviour
         //confirm if the connection was established correctly
         websocket.OnOpen += () => {
             Debug.Log("WebSocket is open!");
-            //sending message as string
         };
 
         websocket.OnError += (e) => {
@@ -43,13 +42,15 @@ public class WebSocketsManager : MonoBehaviour
 
         websocket.OnMessage += (bytes) =>   {
             // Reading a plain text message
-            Debug.Log("Bytes: "+bytes.Length+" the message in bytes: "+bytes);
+            //Debug.Log("Bytes: "+bytes.Length+" the message in bytes: "+bytes);
             string message = System.Text.Encoding.UTF8.GetString(bytes);
             Debug.Log("RECEIVED MESSAGE: "+message);
             textComponent.text = message;
         };
-        
-        // waiting for messages
+
+        // Keep sending messages at every 0.3s
+        InvokeRepeating("SendWebSocketMessages", 0.0f, 0.3f);   
+
         await websocket.Connect();
     }
 
@@ -61,9 +62,8 @@ public class WebSocketsManager : MonoBehaviour
         #endif
     }
 
-
-    private async void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
-        await websocket.Close();
+        websocket.Close();
     }
 }

@@ -16,7 +16,7 @@ wss.on('connection', function(ws) {
   const textInterval = setInterval(() => ws.send("hello world!"), 100);
 
   // send random bytes interval
-  const binaryInterval = setInterval(() => ws.send(crypto.randomBytes(8).buffer), 110);
+  //const binaryInterval = setInterval(() => ws.send(crypto.randomBytes(8).buffer), 110);
 
   ws.on('message', function(data) {
     if (typeof(data) === "string") {
@@ -31,7 +31,7 @@ wss.on('connection', function(ws) {
   ws.on('close', function() {
     console.log("client left.");
     clearInterval(textInterval);
-    clearInterval(binaryInterval);
+    //clearInterval(binaryInterval);
   });
 });
 

@@ -43,4 +43,8 @@ public class GameStateManager : MonoBehaviour
     {
         stateMachine.SetTrigger("NextState");
     }
+
+    public void ResetGame(){
+        stateMachine.SetTrigger("ResetGame");
+    }
 }
