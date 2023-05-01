@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public static class PauseData {
     private static bool paused = false;
 
