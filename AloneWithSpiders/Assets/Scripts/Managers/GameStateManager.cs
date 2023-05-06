@@ -26,6 +26,8 @@ public class GameStateManager : MonoBehaviour
             return;
         }
         instance = this;
+
+        stateMachine.ResetTrigger("NextState");
     }
 
     private void Update()
@@ -40,9 +42,5 @@ public class GameStateManager : MonoBehaviour
     public void NextState()
     {
         stateMachine.SetTrigger("NextState");
-    }
-
-    public void ResetGame(){
-        stateMachine.SetTrigger("ResetGame");
     }
 }

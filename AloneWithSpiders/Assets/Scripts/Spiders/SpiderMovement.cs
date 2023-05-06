@@ -8,12 +8,11 @@ public class SpiderMovement : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
-    private bool canWalk;
+    private bool canWalk = true;
     public int maxWaitTime;
-    private bool beingGrabed;
+    private bool beingGrabbed = false;
     private void Awake()
     {
-        canWalk = true;
         coll = GetComponent<BoxCollider>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -26,18 +25,20 @@ public class SpiderMovement : MonoBehaviour
         animator.SetBool("Walking", true);
         canWalk = false;
         GetComponent<Rigidbody>().isKinematic = true;
-        beingGrabed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (!agent.enabled)
         {
             return;
         }
+        //
         float dist = agent.remainingDistance; 
-        if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
+        Debug.Log("\nDistance: "+dist+"\nPath Status: "+agent.pathStatus+"\nRemaining Distance: "+agent.remainingDistance+"\n");
+        if (dist != Mathf.Infinity && agent.remainingDistance == 0) // agent.pathStatus == NavMeshPathStatus.PathComplete &&
         {
             if (canWalk)
             {
@@ -55,7 +56,7 @@ public class SpiderMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (beingGrabed)
+        if (beingGrabbed)
         {
             return;
         }
@@ -75,6 +76,7 @@ public class SpiderMovement : MonoBehaviour
 
     public static Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
     {
+        //
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * distance;
 
         randomDirection += origin;
@@ -89,13 +91,13 @@ public class SpiderMovement : MonoBehaviour
     public void StartGrab()
     {
         agent.enabled = false;
-        beingGrabed = true;
+        beingGrabbed = true;
         coll.isTrigger = true;
     }
     public void FinishGrab()
     {
         coll.isTrigger = false;
         GetComponent<Rigidbody>().isKinematic = false;
-        beingGrabed = false;
+        beingGrabbed = false;
     }
 }

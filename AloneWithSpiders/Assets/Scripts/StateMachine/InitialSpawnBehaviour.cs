@@ -5,7 +5,7 @@ public class InitialSpawnBehaviour : StateMachineBehaviour
     GameStateManager gsm;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        gsm = animator.GetComponent<GameStateManager>();
+        gsm = GameStateManager.instance;
         gsm.player.transform.position = gsm.spawnPosition.position;
         gsm.player.transform.rotation = gsm.spawnPosition.rotation;
         gsm.kitchenCollider.enabled = true;
