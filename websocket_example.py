@@ -21,11 +21,12 @@ class WebSocketServer:
             print(secret)
             if secret == self._secret:
                 time.sleep(1)
-                msg = f"Sending message {datetime.datetime.now()}"
+                #msg = f"Sending message {datetime.datetime.now()}"
+                msg = f"{38.01}"
                 await websocket.send(msg)
                 print(msg)
 
 
 if __name__ == "__main__":
-    server = WebSocketServer("127.0.0.1", 6969, "example1")
+    server = WebSocketServer("192.168.1.79", 3000, "example1")
     server.start()

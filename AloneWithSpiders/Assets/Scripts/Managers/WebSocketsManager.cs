@@ -29,23 +29,29 @@ public class WebSocketsManager : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
+        //StreamWriter doesn't work with quest (WHY? Probably needs permission first)
+
         //As the file name uses UTC time there is no problem with finding dupes
-        filePath = Application.dataPath+"/Logs/LogFile_"+DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")+".txt";
+        //filePath = Application.dataPath+"/Logs/LogFile_"+DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")+".txt";
         // Create the directory if it doesn't exist
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        //Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
         // Create the file
-        writer = new StreamWriter(filePath); //if we want to append use new StreamWriter(filePath, true)
+        //writer = new StreamWriter(filePath); //if we want to append use new StreamWriter(filePath, true)
 
-        websocket = new WebSocket("ws://localhost:3000");
+        textComponent.text = "Creating...";
+        websocket = new WebSocket("ws://192.168.1.79:3000");
+        textComponent.text = "Created";
 
         //confirm if the connection was established correctly
         websocket.OnOpen += () => {
             Debug.Log("WebSocket is open!");
+            textComponent.text = "Connected!";
         };
 
         websocket.OnError += (e) => {
             Debug.Log("Error! " + e);
+            textComponent.text = "ERROR!";
         };
 
         websocket.OnClose += (e) => {
@@ -57,18 +63,27 @@ public class WebSocketsManager : MonoBehaviour
             //Debug.Log("Bytes: "+bytes.Length+" the message in bytes: "+bytes);
             string message = System.Text.Encoding.UTF8.GetString(bytes);
             Debug.Log("RECEIVED MESSAGE: "+message);
-            
-            // Write to the file
-            String spiderPos = "";
-            foreach(GameObject go in GameObject.FindGameObjectsWithTag("Spider")){
-                spiderPos += "["+go.transform.position.ToString()+"]";
-            }
-            writer.WriteLine($"Received Message: "+message+": PlayerPos: "+
-                                playerObject.transform.position.ToString()+": SpidersPos: "+ spiderPos);
-            
-            //Debug.Log("Received Message: "+message+": PlayerPos: "+playerObject.transform.position.ToString()+": SpidersPos: "+ spiderPos);
 
-            textComponent.text = message;
+            float val;
+            if(float.TryParse(message, out val)){
+                textComponent.text = "Val: "+val;
+                Debug.Log(val+1);
+            }
+            else{
+                // Write to the file
+                String spiderPos = "";
+                foreach(GameObject go in GameObject.FindGameObjectsWithTag("Spider")){
+                    spiderPos += "["+go.transform.position.ToString()+"]";
+                }
+                //writer.WriteLine($"Received Message: "+message+": PlayerPos: "+
+                //                    playerObject.transform.position.ToString()+": SpidersPos: "+ spiderPos);
+                
+                //Debug.Log("Received Message: "+message+": PlayerPos: "+playerObject.transform.position.ToString()+": SpidersPos: "+ spiderPos);
+
+                textComponent.text = message;
+            }
+            
+            
         };
 
         // Keep sending messages at every 0.3s
