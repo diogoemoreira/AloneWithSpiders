@@ -7,7 +7,7 @@ public class CatchSpidersBehaviour : StateMachineBehaviour
     {
         GameStateManager.instance.terrariumCollider.enabled = true;
         SpiderSpawner.instance.SpawnSpiders(5);
-        UITaskManager.instance.SetCurrentTask("- Put in the terrarium all the spiders");
+        UITaskManager.instance.SetCurrentTask("- Put in the terrarium all the spiders(5)");
 
         SubtitlesManager.instance.DisplaySubtitles("Can you make sure all the spiders are still inside?");
         SubtitlesManager.instance.DisplaySubtitles("If not there should be a total of 6 spiders. Since you already got one there are only 5 more.");

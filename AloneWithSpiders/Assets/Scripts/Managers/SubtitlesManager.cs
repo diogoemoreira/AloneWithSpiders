@@ -52,7 +52,7 @@ public class SubtitlesManager : MonoBehaviour
 
     IEnumerator CountDownSubtitles()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(6);
         textComponent.enabled = false;
         canPlayNext = true;
     }

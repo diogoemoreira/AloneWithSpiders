@@ -9,11 +9,11 @@ public class GrabSpiderBehaviour : StateMachineBehaviour
         gsm = animator.GetComponent<GameStateManager>();
         Instantiate(gsm.spiderPrefab, gsm.bathroomSpiderSpawnPos);
         gsm.terrariumCollider.enabled = true;
-        UITaskManager.instance.SetCurrentTask("- Grab the spider and place it in the terrarium");
+        UITaskManager.instance.SetCurrentTask("- Grab the spider and place it in the terrarium (Bedroom)");
 
         //should only trigger when entering the bathroom or picking up the first spider
         SubtitlesManager.instance.DisplaySubtitles("You found a spider?");
-        SubtitlesManager.instance.DisplaySubtitles("I must have forgotten to close the spiders' terrarium!");
+        SubtitlesManager.instance.DisplaySubtitles("Oh no! I must have forgotten to close the spiders' terrarium!");
         SubtitlesManager.instance.DisplaySubtitles("They are harmless so just grab them and leave them in the terrarium placed in the bedroom");
     }
 
