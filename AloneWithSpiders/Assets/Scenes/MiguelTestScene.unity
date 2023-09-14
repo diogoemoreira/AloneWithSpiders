@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
+  m_VoxelSize: 0.033333335
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: c8f729cc57089814581806ef2fa50eb3, type: 2}
 --- !u!4 &254930084
@@ -1132,7 +1132,6 @@ MonoBehaviour:
   - {fileID: 1469543912}
   spawnRate: 0.1
   spiderPrefab: {fileID: 3746422559080908669, guid: 7b2f78d1801d07f4cacfa53e0c2ae26f, type: 3}
-  maxSpiders: 50
 --- !u!1 &316475139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,7 +1268,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
+  m_VoxelSize: 0.033333335
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 09bf8fa649e38b949b879f36e2066e37, type: 2}
 --- !u!4 &472050627
@@ -2575,7 +2574,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2045391906424469470, guid: a60bfd52ac0c1cd4f954eef40b2641f0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 604622301}
+    - target: {fileID: 2045391906424469470, guid: a60bfd52ac0c1cd4f954eef40b2641f0, type: 3}
       propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 3746422559080908669, guid: 7b2f78d1801d07f4cacfa53e0c2ae26f, type: 3}
+    - target: {fileID: 2045391906424469470, guid: a60bfd52ac0c1cd4f954eef40b2641f0, type: 3}
+      propertyPath: spiderPrefab
       value: 
       objectReference: {fileID: 3746422559080908669, guid: 7b2f78d1801d07f4cacfa53e0c2ae26f, type: 3}
     - target: {fileID: 2045391906424469470, guid: a60bfd52ac0c1cd4f954eef40b2641f0, type: 3}

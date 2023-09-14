@@ -10,6 +10,7 @@ import neurokit2 as nk
 datae = [...] #data for ecg
 datahr = [] #data for HR
 datapeaks = []
+baseline_bpm = 0
 
 directory = os.getcwd()  # Get the current working directory
 text_files = []
@@ -33,12 +34,54 @@ for file in text_files:
             peaks_dict = nk.ecg_peaks(aux_clean, 500, 'neurokit', False)[1]
             peaks = peaks_dict['ECG_R_Peaks']
             heart_rate = nk.ecg_rate(peaks, 500)
+
             datahr = [np.mean(hr) for hr in heart_rate]
+
+            
+            #i=0
+            #baseline_hr=0
+            #for hrbpm in datahr:
+            #    baseline_hr+=hrbpm
+            #    i+=1
+            #    if i==20:
+            #        print(baseline_hr/i)
+            #        i,baseline_hr = 0,0
+
             datapeaks = [np.mean(peak) for peak in peaks ]
 
 time = np.arange(len(datae)) / 500
 time_hr = np.linspace(0, len(datae) / 500, len(heart_rate))
 time_peaks_hr = np.linspace(0, len(datae) / 500, len(datapeaks))
+
+i=0
+i_total=0
+section=0
+baseline_hr=0
+
+for hrbpm in datahr:
+    #if hrbpm < 100:
+    #    hrbpm=111
+    #    datahr[i_total]=111
+    baseline_hr+=hrbpm
+    i+=1
+    if time_peaks_hr[i_total]>161 and section==2:
+        print("baseline section 4: ",baseline_hr/i)
+        i,baseline_hr=0,0
+        section+=1
+    elif time_peaks_hr[i_total]>70 and section==-1:
+        print("baseline section 3: ",baseline_hr/i)
+        i,baseline_hr=0,0
+        section+=1
+    elif time_peaks_hr[i_total]>62 and section==1:
+        print("baseline section 2: ",baseline_hr/i)
+        i,baseline_hr=0,0
+        section+=1
+    elif time_peaks_hr[i_total]>29 and section==0:
+        print("baseline section 1: ",baseline_hr/i)
+        i,baseline_hr=0,0
+        section+=1
+    i_total+=1
+
 
 # Create the Dash application
 app = dash.Dash(__name__)

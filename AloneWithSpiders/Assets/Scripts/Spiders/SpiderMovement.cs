@@ -37,7 +37,7 @@ public class SpiderMovement : MonoBehaviour
         }
         //
         float dist = agent.remainingDistance; 
-        Debug.Log("\nDistance: "+dist+"\nPath Status: "+agent.pathStatus+"\nRemaining Distance: "+agent.remainingDistance+"\n");
+        //Debug.Log("\nDistance: "+dist+"\nPath Status: "+agent.pathStatus+"\nRemaining Distance: "+agent.remainingDistance+"\n");
         if (dist != Mathf.Infinity && agent.remainingDistance == 0) // agent.pathStatus == NavMeshPathStatus.PathComplete &&
         {
             if (canWalk)
@@ -69,7 +69,7 @@ public class SpiderMovement : MonoBehaviour
 
     IEnumerator waiter()
     {
-        int wait_time = Random.Range(0, 2);
+        int wait_time = Random.Range(0, 3);
         yield return new WaitForSeconds(wait_time);
         canWalk = true;
     }

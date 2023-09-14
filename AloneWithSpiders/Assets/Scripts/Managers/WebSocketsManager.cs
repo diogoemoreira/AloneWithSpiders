@@ -12,7 +12,8 @@ public class WebSocketsManager : MonoBehaviour
     //public TextMeshProUGUI textComponent;
 
     public GameObject playerObject;
-    //public GameLogic gameLogic;
+    public GameObject hrPrompt;
+
 
     private WebSocket websocket;
 
@@ -83,6 +84,17 @@ public class WebSocketsManager : MonoBehaviour
                         first = false;
                     }
                 }
+            }
+
+            if(heartRate >= heartRate1 * 1.25){
+                //show hr prompt
+                Debug.Log("show heart rate prompt");
+                hrPrompt.SetActive(true);
+            }
+            else{
+                //hide hr prompt
+                Debug.Log("hide heart rate prompt");
+                hrPrompt.SetActive(false);
             }
             
         };
