@@ -6,9 +6,9 @@ The first context features a storyline where a housekeeper is receiving a call f
 
 ## How to capture ECG data with Biosignals Plux
 - Connect Biosignals Plux to the computer
-- Start the Node.js server (available on [a link]([https://github.com/diogoemoreira/AloneWithSpiders/tree/main/WebSocketExample/dash_analysis](https://github.com/diogoemoreira/AloneWithSpiders/tree/main/WebSocketExample)) )
+- Start the Node.js server (available on [WebSocketExample]([https://github.com/diogoemoreira/AloneWithSpiders/tree/main/WebSocketExample)) )
 - Start Alone with Spiders in the Meta Quest 2
 - Stop the Node.js server to complete the ECG capture
 
 ## Data Visualization Platform
-The data visualization tool is available in [a link](https://github.com/diogoemoreira/AloneWithSpiders/tree/main/WebSocketExample/dash_analysis)
+The data visualization tool is available in [Dash Analysis](https://github.com/diogoemoreira/AloneWithSpiders/tree/main/WebSocketExample/dash_analysis)
